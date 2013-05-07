@@ -36,7 +36,8 @@
     "mime": "~1.2.9"
   },
   "peerDependencies": {
-    "grunt": "~0.4.1"
+    "grunt": "~0.4.1",
+    "mime": "~1.2.9"
   },
   "keywords": [
     "gruntplugin"
