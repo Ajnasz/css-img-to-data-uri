@@ -52,4 +52,11 @@ List of css files which needs to be processed.
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+
+### v0.1.1
+
+ * Detect and warn if duplicated image path found.
+
+### v0.1.0
+
+ * Inital release, it can replace file paths to data uri in css files.
