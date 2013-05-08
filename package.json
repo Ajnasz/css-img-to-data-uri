@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/ajnasz/css-img-2-dta-uri.git"
+    "url": "git://github.com/ajnasz/css-img-to-data-uri.git"
   },
   "bugs": {
-    "url": "https://github.com/ajnasz/css-img-2-dta-uri/issues"
+    "url": "https://github.com/ajnasz/css-img-to-data-uri/issues"
   },
   "licenses": [
     {
       "type": "MIT",
-      "url": "https://github.com/ajnasz/css-img-2-dta-uri/blob/master/LICENSE-MIT"
+      "url": "https://github.com/ajnasz/css-img-to-data-uri/blob/master/LICENSE-MIT"
     }
   ],
   "main": "Gruntfile.js",
