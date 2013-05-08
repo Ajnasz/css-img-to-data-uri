@@ -84,7 +84,7 @@ module.exports = function (grunt) {
 
             if (imagePath) {
                 getMD5ForImage(imagePath, function (base64) {
-                    cb(replaceLine(line, base64, mime.lookup(imagePath)));
+                    cb(replaceLine(line, base64, mime.lookup(imagePath)), imagePath);
                 });
             } else {
                 cb(line);
@@ -94,21 +94,29 @@ module.exports = function (grunt) {
         }
     }
 
-    function doStuff(data, filePath, cb) {
+    function convertPathsToDataUri(data, filePath, cb) {
         var lines = data.toString('utf-8').split('\n'),
             outputLines = [],
-            processedLines = 0;
+            processedLines = 0,
+            imagePaths = {},
+            duplicates = [];
 
         function finishLineProcess() {
             processedLines += 1;
 
             if (processedLines === lines.length) {
-                cb(outputLines.join('\n'));
+                cb(outputLines.join('\n'), duplicates);
             }
         }
 
         lines.forEach(function (line, index) {
-            processLine(line, filePath, function (line) {
+            processLine(line, filePath, function (line, imagePath) {
+                if (imagePath) {
+                    if (imagePaths[imagePath] === true) {
+                        duplicates.push(index);
+                    }
+                    imagePaths[imagePath] = true;
+                }
                 outputLines[index] = line;
                 finishLineProcess();
             });
@@ -128,7 +136,7 @@ module.exports = function (grunt) {
                 if (err) {
                     throw err;
                 }
-                doStuff(data, filePath, cb);
+                convertPathsToDataUri(data, filePath, cb);
             });
         });
     }
@@ -145,7 +153,13 @@ module.exports = function (grunt) {
             doneCounter = 0;
 
         files.forEach(function (f) {
-            build(f.src, function (css) {
+            build(f.src, function (css, duplicates) {
+
+                if (duplicates.length) {
+                    grunt.log.error('possible duplicated images in the following lines: '
+                               + duplicates.join(', '));
+                }
+
                 grunt.file.write(f.dest, css);
                 // Print a success message.
                 grunt.log.writeln('File "' + f.dest + '" created.');
