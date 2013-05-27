@@ -79,7 +79,7 @@ module.exports = function (grunt) {
 
     function processLine(line, filePath, cb) {
 
-        if (line.indexOf('url(') > -1 && line.indexOf('/*no-base64') === -1) {
+        if (line.indexOf('url(') > -1 && line.indexOf('no-base64') === -1) {
             var imagePath = getImagePath(line, filePath);
 
             if (imagePath) {
