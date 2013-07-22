@@ -1,6 +1,6 @@
 # grunt-css-2-data-uri
 
-> Replace image urls to data uri
+Replace image urls to data uri. Also warns if a data uri would be duplicated, so developer can move them under one CSS rule to save size.
 
 ## Getting Started
 This plugin requires Grunt `~0.4.1`
