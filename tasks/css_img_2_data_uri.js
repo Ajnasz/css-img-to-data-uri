@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     var fs = require('fs'),
         path = require('path'),
         mime = require('mime'),
-        urlRegex = /url\(['"]?([0-9a-zA-Z.\/\-]+)['"]?\)/,
+        urlRegex = /url\(['"]?([0-9a-zA-Z.\/\-\_]+)['"]?\)/,
         desc;
 
     /**
