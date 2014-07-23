@@ -26,6 +26,10 @@ module.exports = function (grunt) {
                     {
                         src: 'test/css/a.css',
                         dest: 'tmp/a.css'
+                    },
+                    {
+                        src: 'test/css/b.css',
+                        dest: 'tmp/b.css'
                     }
                 ]
             }

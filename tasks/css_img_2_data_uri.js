@@ -14,7 +14,7 @@ module.exports = function (grunt) {
     var fs = require('fs'),
         path = require('path'),
         mime = require('mime'),
-        urlRegex = /url\(['"]?([0-9a-zA-Z.\/\-\_]+)['"]?\)/,
+        urlRegex = 'url\\([\'"]?([0-9a-zA-Z./_-]+)[\'"]?\\)',
         desc;
 
     /**
@@ -25,12 +25,20 @@ module.exports = function (grunt) {
     * image path.
     */
     function getImagePath(line, filePath) {
-        var match = line.match(urlRegex);
+        var regEx = new RegExp(urlRegex, 'g'),
+            output = [],
+            m;
 
-        if (match) {
-            return path.dirname(filePath) + '/' + match[1];
+        m = regEx.exec(line);
+        while (m) {
+            output.push({
+                match: m[1],
+                path: path.dirname(filePath) + '/' + m[1]
+            });
+            m = regEx.exec(line);
         }
-        return null;
+
+        return output.length ? output : null;
     }
 
     /**
@@ -58,8 +66,9 @@ module.exports = function (grunt) {
     * @param {String} line The line where the url string could be found
     * @param {String} base64 The base64 encoded image
     */
-    function replaceLine(line, base64, mimeType) {
-        return line.replace(urlRegex, "url('data:" + mimeType + ";base64," + base64 + "')");
+    function replaceLine(line, m, base64, mimeType) {
+        return line.replace(m, "url('data:" + mimeType + ";base64," + base64 + "')");
+        // return line.replace(new RegExp(urlRegex, 'g'), "url('data:" + mimeType + ";base64," + base64 + "')");
     }
 
     function checkFile(file, cb) {
@@ -80,11 +89,25 @@ module.exports = function (grunt) {
     function processLine(line, filePath, cb) {
 
         if (line.indexOf('url(') > -1 && line.indexOf('no-base64') === -1) {
-            var imagePath = getImagePath(line, filePath);
+            var imagePath = getImagePath(line, filePath),
+                count = 0;
 
-            if (imagePath) {
-                getMD5ForImage(imagePath, function (base64) {
-                    cb(replaceLine(line, base64, mime.lookup(imagePath)), imagePath);
+            if (imagePath && imagePath.length) {
+                imagePath.forEach(function (p) {
+                    getMD5ForImage(p.path, function (base64) {
+                        p.base64 = base64;
+                        p.mime = mime.lookup(p.path);
+                        count += 1;
+
+                        if (count === imagePath.length) {
+                            imagePath.forEach(function (p) {
+                                line = replaceLine(line, new RegExp('url\\([\'"]?' + p.match + '[\'"]?\\)'), p.base64, p.mime);
+                            });
+                            cb(line, imagePath.map(function (p) {
+                                return p.path;
+                            }));
+                        }
+                    });
                 });
             } else {
                 cb(line);
@@ -111,11 +134,13 @@ module.exports = function (grunt) {
 
         lines.forEach(function (line, index) {
             processLine(line, filePath, function (line, imagePath) {
-                if (imagePath) {
-                    if (imagePaths[imagePath] === true) {
-                        duplicates.push(index);
-                    }
-                    imagePaths[imagePath] = true;
+                if (imagePath && imagePath.length) {
+                    imagePath.forEach(function (i) {
+                        if (imagePaths[i] === true) {
+                            duplicates.push(index);
+                        }
+                        imagePaths[imagePath] = true;
+                    });
                 }
                 outputLines[index] = line;
                 finishLineProcess();
