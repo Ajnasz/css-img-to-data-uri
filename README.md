@@ -24,6 +24,7 @@ In your project's Gruntfile, add a section named `css_img_2_data_uri` to the dat
 
 ```js
 grunt.initConfig({
+	throwOnDuplicate: true,
     css_img_2_data_uri: {
         options: {
             files: [
@@ -47,6 +48,11 @@ grunt.initConfig({
 Type: `Array`
 
 List of css files which needs to be processed.
+
+#### options.throwOnDuplicate
+Type: `Boolean`
+
+If set to true, it throws an error when the same image found twice, so the grunt build would stop.
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
