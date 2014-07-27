@@ -139,7 +139,7 @@ module.exports = function (grunt) {
                         if (imagePaths[i] === true) {
                             duplicates.push(index);
                         }
-                        imagePaths[imagePath] = true;
+                        imagePaths[i] = true;
                     });
                 }
                 outputLines[index] = line;
