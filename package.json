@@ -1,7 +1,7 @@
 {
   "name": "grunt-css-img-2-data-uri",
   "description": "Replace image urls to data uri",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "homepage": "https://github.com/ajnasz/css-img-to-data-uri",
   "author": {
     "name": "Lajos Koszti",
