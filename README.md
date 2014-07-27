@@ -56,13 +56,3 @@ If set to true, it throws an error when the same image found twice, so the grunt
 
 ## Contributing
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
-
-## Release History
-
-### v0.1.1
-
- * Detect and warn if duplicated image path found.
-
-### v0.1.0
-
- * Inital release, it can replace file paths to data uri in css files.
