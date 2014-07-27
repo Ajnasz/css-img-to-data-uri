@@ -15,8 +15,7 @@ module.exports = function (grunt) {
         jslint: {
             files: [
                 'Gruntfile.js',
-                'tasks/*.js',
-                '<%= nodeunit.tests %>'
+                'tasks/*.js'
             ]
         },
 
@@ -40,9 +39,8 @@ module.exports = function (grunt) {
             tests: ['tmp']
         },
 
-        // Unit tests.
-        nodeunit: {
-            tests: ['test/*_test.js']
+        execute: {
+            testLib: ['test/test-lib.js']
         }
     });
 
@@ -52,11 +50,11 @@ module.exports = function (grunt) {
     // These plugins provide necessary tasks.
     grunt.loadNpmTasks('grunt-jslint');
     grunt.loadNpmTasks('grunt-contrib-clean');
-    grunt.loadNpmTasks('grunt-contrib-nodeunit');
+    grunt.loadNpmTasks('grunt-execute');
 
     // Whenever the "test" task is run, first clean the "tmp" dir, then run this
     // plugin's task(s), then test the result.
-    grunt.registerTask('test', ['clean', 'css_img_2_data_uri', 'nodeunit', 'clean']);
+    grunt.registerTask('test', ['clean', 'execute', 'css_img_2_data_uri', 'clean']);
 
     // By default, lint and run all tests.
     grunt.registerTask('default', ['jslint',  'test']);
