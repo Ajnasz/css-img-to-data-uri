@@ -172,7 +172,8 @@ module.exports = function (grunt) {
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
     grunt.registerTask('css_img_2_data_uri', desc, function () {
-        var files = this.options().files,
+        var options = this.options(),
+            files = options.files,
             filesLen = files.length,
             done = this.async(),
             doneCounter = 0;
@@ -181,8 +182,13 @@ module.exports = function (grunt) {
             build(f.src, function (css, duplicates) {
 
                 if (duplicates.length) {
-                    grunt.log.error('possible duplicated images in the following lines: '
-                               + duplicates.join(', '));
+                    if (options.throwOnDuplicate) {
+                        throw new Error('possible duplicated images in the following lines: '
+                                        + duplicates.join(', '));
+                    } else {
+                        grunt.log.error('possible duplicated images in the following lines: '
+                                        + duplicates.join(', '));
+                    }
                 }
 
                 grunt.file.write(f.dest, css);
