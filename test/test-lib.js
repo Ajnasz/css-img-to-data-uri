@@ -17,10 +17,10 @@ var test = (function () {
 	function run() {
 		var item = tests.shift();
 
-		util.print(item.name);
+		process.stdout.write(item.name);
 
 		item.test(function () {
-			util.puts(' ..done');
+			process.stdout.write(' ..done\n');
 
 			if (tests.length) {
 				run();
