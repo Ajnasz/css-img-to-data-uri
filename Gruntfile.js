@@ -44,6 +44,8 @@ module.exports = function (grunt) {
         }
     });
 
+    grunt.loadNpmTasks('grunt-release');
+
     // Actually load this plugin's task(s).
     grunt.loadTasks('tasks');
 

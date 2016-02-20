@@ -34,6 +34,7 @@
     "grunt-contrib-nodeunit": "~0.1.2",
     "grunt-execute": "^0.2.2",
     "grunt-jslint": "~0.2.5",
+    "grunt-release": "^0.13.0",
     "mime": "~1.2.9"
   },
   "peerDependencies": {
