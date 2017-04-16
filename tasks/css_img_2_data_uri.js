@@ -19,12 +19,13 @@ module.exports = function (grunt) {
     grunt.registerTask('css_img_2_data_uri', desc, function () {
         var options = this.options(),
             files = options.files,
+			altImgSource = options.altImgSource,
             filesLen = files.length,
             done = this.async(),
             doneCounter = 0;
 
         files.forEach(function (f) {
-            build(f.src, function (css, duplicates) {
+            build(f.src, altImgSource, function (css, duplicates) {
 
                 if (duplicates.length) {
                     if (options.throwOnDuplicate) {
